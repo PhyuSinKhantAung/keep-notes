@@ -1,10 +1,9 @@
+import "@/styles/globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import NavBar from "./components/ui/NavBar";
-import { ThemeProvider } from "./components/ui/ThemeProvider";
-
-const inter = Inter({ subsets: ["latin"] });
+import { ThemeProvider } from "../components/ThemeProvider";
+import { fontSans } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
+import NavBar from "@/components/layout/NavBar";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +17,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} relative`}>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -27,7 +31,7 @@ export default function RootLayout({
         >
           <NavBar />
 
-          <div className="pt-28 pl-40"> {children}</div>
+          <div>{children}</div>
         </ThemeProvider>
       </body>
     </html>
