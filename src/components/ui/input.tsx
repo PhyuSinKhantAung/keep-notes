@@ -1,6 +1,7 @@
 import * as React from "react";
 import { SearchIcon, XIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import IconBackground from "./IconBackground";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
@@ -10,9 +11,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <form className="relative">
         <div className="absolute top-1 left-1 cursor-pointer">
-          <div className="flex p-2 justify-center items-center cursor-pointer hover:bg-accent hover:rounded-full">
+          <IconBackground>
             <SearchIcon size={18} />
-          </div>
+          </IconBackground>
         </div>
 
         <input
@@ -26,9 +27,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         />
 
         <div className="absolute top-1 left-[75%] cursor-pointer">
-          <div className="flex p-2 justify-center items-center cursor-pointer hover:bg-accent hover:rounded-full">
+          <IconBackground>
             <XIcon size={18} />
-          </div>
+          </IconBackground>
         </div>
       </form>
     );
