@@ -19,7 +19,11 @@ const SideBar = ({ open }: { open: boolean }) => {
 
   const pathname = usePathname();
   return (
-    <ul className={` ${open ? " w-72" : "w-20"} mt-3`}>
+    <ul
+      className={` ${open ? " w-72" : "w-20"} pt-3 h-screen overflow-y-auto ${
+        !open && "border-r"
+      }`}
+    >
       {Menus.map((menu) => (
         <Link key={menu.title} href={menu.path}>
           <li

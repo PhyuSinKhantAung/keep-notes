@@ -1,6 +1,5 @@
 "use client";
 import "@/styles/globals.css";
-import type { Metadata } from "next";
 import { ThemeProvider } from "../components/ThemeProvider";
 import { fontSans } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
@@ -8,9 +7,7 @@ import NavBar from "@/components/layout/NavBar";
 import { useSideBarOpen } from "@/hooks/useSideBarOpen";
 import SideBar from "@/components/layout/SideBar";
 import Head from "next/head";
-import MarginWidthWrapper from "@/components/layout/MarginWidthWrapper";
-import Header from "@/components/layout/Header";
-import PageWrapper from "@/components/layout/PageWrapper";
+// import type { Metadata } from "next";
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -32,7 +29,7 @@ export default function RootLayout({
       </Head>
       <body
         className={cn(
-          " bg-background font-sans antialiased",
+          "bg-background font-sans antialiased flex flex-col",
           fontSans.variable
         )}
       >
@@ -44,15 +41,10 @@ export default function RootLayout({
         >
           <NavBar openSideBar={openSideBar} />
 
-          <main className="flex-1 flex-grow">
-            {/* <MarginWidthWrapper> */}
-            {/* <Header /> */}
-            {/* <PageWrapper>{children}</PageWrapper> */}
-            {/* </MarginWidthWrapper> */}
-            {children}
-          </main>
-
-          <SideBar open={open} />
+          <div className="flex">
+            <SideBar open={open} />
+            <main className="flex-1 p-6">{children}</main>
+          </div>
         </ThemeProvider>
       </body>
     </html>
