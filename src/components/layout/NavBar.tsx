@@ -22,7 +22,7 @@ const NavBar = ({ openSideBar }: { openSideBar: any }) => {
           <h1 className="text-2xl">NOTES</h1>
         </div>
       </div>
-      <div className="w-1/2  py-4">
+      <div className="w-1/2 py-4">
         <Input placeholder="Search" />
       </div>
       <div className="w-1/4 py-4">
