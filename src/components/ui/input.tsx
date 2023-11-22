@@ -10,7 +10,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
     return (
       <form className="relative">
-        <div className="absolute top-1 left-1 cursor-pointer">
+        <div className="absolute cursor-pointer inset-y-0 start-0 flex items-center ps-3">
           <IconBackground>
             <SearchIcon size={18} />
           </IconBackground>
@@ -19,14 +19,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           className={cn(
-            "flex h-10 w-[80%] rounded-md border border-input bg-background px-10 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+            "block w-full h-10 mx-auto rounded-md border border-input bg-background pl-12 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
             className
           )}
           ref={ref}
           {...props}
         />
-
-        <div className="absolute top-1 left-[75%] cursor-pointer">
+        <div className="hidden sm:block absolute cursor-pointer end-2.5 bottom-[0.2rem]">
           <IconBackground>
             <XIcon size={18} />
           </IconBackground>
