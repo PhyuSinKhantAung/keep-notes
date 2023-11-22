@@ -1,17 +1,43 @@
 import {
   LucideProps,
   Moon,
-  SunMedium,
   Twitter,
   type IconNode as LucideIcon,
+  RotateCwIcon,
+  AlignJustify,
+  SunIcon,
+  MoonIcon,
+  SearchIcon,
+  XIcon,
 } from "lucide-react";
+import IconBackground from "./ui/IconBackground";
 
 export type Icon = LucideIcon;
 
 export const Icons = {
-  sun: SunMedium,
-  moon: Moon,
-  twitter: Twitter,
+  sun: (props: LucideProps) => <SunIcon {...props} />,
+  moon: (props: LucideProps) => <MoonIcon {...props} />,
+  hamburger_menu: (props: LucideProps) => (
+    <IconBackground>
+      <AlignJustify {...props} />
+    </IconBackground>
+  ),
+  refresh: (props: LucideProps) => (
+    <IconBackground>
+      <RotateCwIcon {...props} />
+    </IconBackground>
+  ),
+  search: (props: LucideProps) => (
+    <IconBackground>
+      <SearchIcon {...props} />
+    </IconBackground>
+  ),
+  clear: (props: LucideProps) => (
+    <IconBackground>
+      <XIcon {...props} />
+    </IconBackground>
+  ),
+
   logo: (props: LucideProps) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
       <path

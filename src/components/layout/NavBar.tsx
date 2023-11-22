@@ -1,10 +1,9 @@
 "use client";
-import { AlignJustify, RotateCw } from "lucide-react";
 import Image from "next/image";
-import { Input } from "@/components/ui/input";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { ModeToggle } from "@/components/ui/Dropdown";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import IconBackground from "../ui/IconBackground";
+import { Icons } from "../Icons";
 
 const NavBar = ({ openSideBar }: { openSideBar: any }) => {
   return (
@@ -12,9 +11,7 @@ const NavBar = ({ openSideBar }: { openSideBar: any }) => {
       <div className="w-1/4  py-4">
         <div className="flex items-center gap-x-2 pl-6">
           <div onClick={openSideBar}>
-            <IconBackground>
-              <AlignJustify size={24} />
-            </IconBackground>
+            <Icons.hamburger_menu size={24} />
           </div>
 
           <Image
@@ -29,14 +26,12 @@ const NavBar = ({ openSideBar }: { openSideBar: any }) => {
         </div>
       </div>
       <div className="w-1/2 py-4">
-        <Input placeholder="Search" />
+        <SearchInput placeholder="Search" />
       </div>
       <div className="w-1/4 py-4">
         <div className="flex justify-end gap-x-2 md:gap-x-6 items-center pr-2 md:pr-10 cursor-pointer ">
           <div className="hidden md:block">
-            <IconBackground>
-              <RotateCw />
-            </IconBackground>
+            <Icons.refresh size={24} />
           </div>
 
           <div className="hidden sm:block">
