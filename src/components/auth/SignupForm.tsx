@@ -3,19 +3,13 @@ import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import FormErrorText from "./FormErrorText";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import FormErrorText from "../FormErrorText";
 import Link from "next/link";
 import axios from "axios";
-import { SignupData } from "@/types/auth";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
-
-const signup = async (data: SignupData) => {
-  // TODO will add some token storing logic soon
-  return await axios.post("/api/signup", data);
-};
 
 const SignupForm = () => {
   const router = useRouter();
@@ -36,18 +30,23 @@ const SignupForm = () => {
   } = useForm<SignupSchemaType>({ resolver: zodResolver(SignupSchema) });
 
   const onSubmit: SubmitHandler<SignupSchemaType> = async (data) => {
-    toast.promise(signup(data), {
-      loading: "Processing...",
-      error: (err) => {
-        return err.response.status === 500
-          ? "Something went wrong!"
-          : err.response.data.message;
-      },
-      success: () => {
-        router.push("/");
-        return "Success";
-      },
-    });
+    try {
+      setIsLoading(true);
+      await axios.post("/api/signup", data);
+    } catch (error: any) {
+      setIsLoading(false);
+
+      return toast.error(
+        `${
+          error.response.status === 500
+            ? "Something went wrong!"
+            : error.response.data.message
+        }`
+      );
+    } finally {
+      setIsLoading(false);
+      router.push("/");
+    }
   };
 
   return (
