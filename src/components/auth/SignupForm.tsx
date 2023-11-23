@@ -33,6 +33,7 @@ const SignupForm = () => {
     try {
       setIsLoading(true);
       await axios.post("/api/signup", data);
+      router.push("/");
     } catch (error: any) {
       setIsLoading(false);
 
@@ -45,7 +46,6 @@ const SignupForm = () => {
       );
     } finally {
       setIsLoading(false);
-      router.push("/");
     }
   };
 
@@ -75,7 +75,7 @@ const SignupForm = () => {
             variant="outline"
             className={`flex-1 ${isLoading && "opacity-10"}`}
           >
-            Signup
+            {isLoading ? "Processing..." : "Signup"}
           </Button>
           <Link href="/login" className="text-sm p-5">
             Already have an account?
