@@ -7,20 +7,20 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import FormErrorText from "../FormErrorText";
 import Link from "next/link";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
+import { handleLoginFormSubmit } from "@/app/actions";
+
+export const LoginSchema = z.object({
+  email: z.string().min(1, "Email is required").email(),
+  password: z.string().min(6).max(20),
+});
+
+export type LoginSchemaType = z.infer<typeof LoginSchema>;
 
 const LoginForm = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-
-  const LoginSchema = z.object({
-    email: z.string().min(1, "Email is required").email(),
-    password: z.string().min(6).max(20),
-  });
-
-  type LoginSchemaType = z.infer<typeof LoginSchema>;
 
   const {
     register,
@@ -28,14 +28,15 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<LoginSchemaType>({ resolver: zodResolver(LoginSchema) });
 
-  const onSubmit: SubmitHandler<LoginSchemaType> = async (data) => {
+  const onSubmit = async (data: LoginSchemaType) => {
     try {
       setIsLoading(true);
-      await axios.post("/api/login", data);
+      await handleLoginFormSubmit(data);
       router.push("/");
     } catch (error: any) {
       setIsLoading(false);
 
+      console.log(error);
       return toast.error(
         `${
           error.response.status === 500
@@ -53,7 +54,7 @@ const LoginForm = () => {
 
       <form
         action=""
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit((data) => onSubmit(data))}
         className="w-full md:w-[25%] p-4 flex flex-col gap-y-4"
       >
         <h1 className=" text-lg font-bold  text-center">Login</h1>
