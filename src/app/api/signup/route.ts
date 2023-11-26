@@ -7,6 +7,7 @@ connect();
 
 export async function POST(request: NextRequest) {
   try {
+    console.log("calling me?");
     const reqBody = await request.json();
 
     const existingUser = await User.findOne({ email: reqBody.email });

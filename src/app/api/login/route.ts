@@ -10,9 +10,14 @@ export async function POST(request: NextRequest) {
   try {
     const reqBody = await request.json();
 
+    console.log("call me");
+    console.log(reqBody);
+
     const { email, password } = reqBody;
 
     const user = await User.findOne({ email });
+
+    console.log("user", user);
 
     if (!user)
       return NextResponse.json(
