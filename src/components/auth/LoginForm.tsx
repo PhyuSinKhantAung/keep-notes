@@ -33,6 +33,7 @@ const LoginForm = () => {
       setIsLoading(true);
       await handleLoginFormSubmit(data);
       router.push("/");
+      console.log("hey");
     } catch (error: any) {
       setIsLoading(false);
 
@@ -54,7 +55,7 @@ const LoginForm = () => {
 
       <form
         action=""
-        onSubmit={handleSubmit((data) => onSubmit(data))}
+        onSubmit={handleSubmit(onSubmit)}
         className="w-full md:w-[25%] p-4 flex flex-col gap-y-4"
       >
         <h1 className=" text-lg font-bold  text-center">Login</h1>
