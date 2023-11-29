@@ -17,14 +17,14 @@ import { useEffect, useState } from "react";
 const NavBar = ({ openSideBar }: { openSideBar: any }) => {
   const [user, setUser] = useState(null);
 
-  // useEffect(() => {
-  //   getUserCredentials().then((res) => {
-  //     console.log(res);
-  //     if (res) {
-  //       setUser(res.user);
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    getUserCredentials().then((res) => {
+      console.log("response", res);
+      if (res) {
+        setUser(res.user);
+      }
+    });
+  }, []);
 
   return (
     <div className={`relative duration-300 border-b flex`}>
@@ -56,6 +56,21 @@ const NavBar = ({ openSideBar }: { openSideBar: any }) => {
           <div className="hidden sm:block">
             <ModeToggle />
           </div>
+
+          <HoverCard>
+            <HoverCardTrigger>
+              <Avatar>
+                {user && (
+                  <AvatarFallback>{user.name[0].toUpperCase()}</AvatarFallback>
+                )}
+              </Avatar>
+            </HoverCardTrigger>
+            <HoverCardContent>
+              {user && user.name}
+              <br />
+              {user && user.email}
+            </HoverCardContent>
+          </HoverCard>
 
           {/* // TODO ~ will be fixed ui soon */}
           <form action={logout}>

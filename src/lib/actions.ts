@@ -18,35 +18,12 @@ export async function authenticate(
 }
 
 export async function logout() {
-  console.log("please singout");
   await signOut();
+  redirect("/login");
 }
 
-// export async function getUserCredentials() {
-//   return await auth();
-// }
-
-// <HoverCard>
-// <HoverCardTrigger>
-// <Avatar>
-{
-  /* <AvatarImage src="https://github.com/shadcn.png" /> */
+export async function getUserCredentials() {
+  const result = await auth();
+  if (!result) return redirect("/login");
+  return result;
 }
-
-{
-  /* {user && (
-                  <AvatarFallback>{user.name[0].toUpperCase()}</AvatarFallback>
-                )} */
-}
-// </Avatar>
-// </HoverCardTrigger>
-// <HoverCardContent>
-{
-  /* {user && user.name} */
-}
-// <br />
-{
-  /* {user && user.email} */
-}
-// </HoverCardContent>
-// </HoverCard>;
