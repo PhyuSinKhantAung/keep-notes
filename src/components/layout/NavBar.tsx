@@ -1,11 +1,31 @@
-"use client";
+/* eslint-disable react-hooks/exhaustive-deps */
 import Image from "next/image";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { ModeToggle } from "@/components/ui/Dropdown";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Icons } from "../Icons";
+import { Button } from "../ui/button";
+import { getUserCredentials, logout } from "@/lib/actions";
+
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { useEffect, useState } from "react";
 
 const NavBar = ({ openSideBar }: { openSideBar: any }) => {
+  const [user, setUser] = useState(null);
+
+  // useEffect(() => {
+  //   getUserCredentials().then((res) => {
+  //     console.log(res);
+  //     if (res) {
+  //       setUser(res.user);
+  //     }
+  //   });
+  // }, []);
+
   return (
     <div className={`relative duration-300 border-b flex`}>
       <div className="w-1/4  py-4">
@@ -33,14 +53,14 @@ const NavBar = ({ openSideBar }: { openSideBar: any }) => {
           <div className="hidden md:block">
             <Icons.refresh size={24} />
           </div>
-
           <div className="hidden sm:block">
             <ModeToggle />
           </div>
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+
+          {/* // TODO ~ will be fixed ui soon */}
+          <form action={logout}>
+            <Button>Logout</Button>
+          </form>
         </div>
       </div>
     </div>
