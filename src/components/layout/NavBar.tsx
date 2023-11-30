@@ -2,17 +2,20 @@
 import Image from "next/image";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { ModeToggle } from "@/components/ui/Dropdown";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Icons } from "../Icons";
 import { Button } from "../ui/button";
 import { getUserCredentials, logout } from "@/lib/actions";
-
 import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 import { useEffect, useState } from "react";
+import { LogOut } from "lucide-react";
 
 const NavBar = ({ openSideBar }: { openSideBar: any }) => {
   const [user, setUser] = useState(null);
@@ -45,7 +48,7 @@ const NavBar = ({ openSideBar }: { openSideBar: any }) => {
           <h1 className="text-2xl hidden md:block">NOTES</h1>
         </div>
       </div>
-      <div className="w-1/2 py-4">
+      <div className="w-1/2 py-4 md:px-24">
         <SearchInput placeholder="Search" />
       </div>
       <div className="w-1/4 py-4">
@@ -57,25 +60,32 @@ const NavBar = ({ openSideBar }: { openSideBar: any }) => {
             <ModeToggle />
           </div>
 
-          <HoverCard>
-            <HoverCardTrigger>
+          {/* // TODO ~ will be fixed ui soon */}
+
+          <DropdownMenu>
+            <DropdownMenuTrigger>
               <Avatar>
                 {user && (
                   <AvatarFallback>{user.name[0].toUpperCase()}</AvatarFallback>
                 )}
               </Avatar>
-            </HoverCardTrigger>
-            <HoverCardContent>
-              {user && user.name}
-              <br />
-              {user && user.email}
-            </HoverCardContent>
-          </HoverCard>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="flex flex-col gap-y-2 px-4">
+              <DropdownMenuLabel>Your Account</DropdownMenuLabel>
 
-          {/* // TODO ~ will be fixed ui soon */}
-          <form action={logout}>
-            <Button>Logout</Button>
-          </form>
+              <small> {user && user.name}</small>
+              <small> {user && user.email}</small>
+
+              <DropdownMenuSeparator />
+
+              <form action={logout}>
+                <Button variant="link" className="p-1">
+                  <span className="mr-2">Logout</span>
+                  <LogOut size={16} />
+                </Button>
+              </form>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </div>

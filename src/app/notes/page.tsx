@@ -1,7 +1,12 @@
 import React from "react";
+import NoteInputsForm from "@/components/NoteInputsForm";
 
 const page = () => {
-  return <div>note page</div>;
+  return (
+    <div>
+      <NoteInputsForm />
+    </div>
+  );
 };
 
 export default page;
