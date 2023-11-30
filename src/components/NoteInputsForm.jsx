@@ -5,8 +5,8 @@ import React from "react";
 
 const NoteInputsForm = () => {
   return (
-    <form action="">
-      <div className="border rounded-md md:w-[35%] mx-auto px-2">
+    <form>
+      <div className="border rounded-md md:w-[35%] mx-auto px-2  shadow-background">
         <div className="group">
           <Input
             className="border-0 rounded-none focus:outline-0 "
