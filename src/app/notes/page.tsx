@@ -1,26 +1,26 @@
 import React from "react";
 import NoteInputsForm from "@/components/NoteInputsForm";
 import NoteCard from "@/components/NoteCard";
+import NoteCardLayout from "@/components/layout/NoteCardLayout";
 
 const page = () => {
   return (
     <div>
       <NoteInputsForm />
 
-      <div className="grid grid-cols-12 gap-y-4 gap-x-4 p-16">
+      <NoteCardLayout>
         <small className="col-span-12">Pinned</small>
-
         <NoteCard />
-      </div>
+      </NoteCardLayout>
 
-      <div className="grid grid-cols-12  gap-y-4 gap-x-4 p-16">
+      <NoteCardLayout>
         <small className="col-span-12">Others</small>
         <NoteCard />
         <NoteCard />
         <NoteCard />
         <NoteCard />
         <NoteCard />
-      </div>
+      </NoteCardLayout>
     </div>
   );
 };
