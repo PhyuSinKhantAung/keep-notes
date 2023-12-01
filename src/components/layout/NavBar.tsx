@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+"use client";
 import Image from "next/image";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { ModeToggle } from "@/components/ui/Dropdown";
@@ -16,18 +16,22 @@ import {
 
 import { useEffect, useState } from "react";
 import { LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const NavBar = ({ openSideBar }: { openSideBar: any }) => {
   const [user, setUser] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     getUserCredentials().then((res) => {
       console.log("response", res);
       if (res) {
-        setUser(res.user);
+        setUser(res);
+      } else {
+        router.push("/login");
       }
     });
-  }, []);
+  }, [router]);
 
   return (
     <div className={`relative duration-300 border-b flex`}>

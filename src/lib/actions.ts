@@ -4,6 +4,8 @@ import { auth, signIn, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 import { connectToDB } from "./mongodb";
 import UserModel from "@/models/User";
+import NoteModel from "@/models/Note";
+import { revalidatePath } from "next/cache";
 
 export async function authenticate(
   prevState: string | undefined,
@@ -26,14 +28,12 @@ export async function logout() {
 }
 
 export async function getUserCredentials() {
-  const result = await auth();
-  if (!result) return redirect("/login");
-  return result;
+  const { user } = await auth();
+  return user;
 }
 
 export async function signup(formData: FormData) {
   try {
-    console.log("here", Object.fromEntries(formData));
     connectToDB();
 
     const password = formData.get("password");
@@ -49,4 +49,21 @@ export async function signup(formData: FormData) {
     return "Failed to signup user";
   }
   redirect("/");
+}
+
+export async function addNote(formData: FormData) {
+  try {
+    connectToDB();
+
+    const user = await getUserCredentials();
+
+    const payload = { ...Object.fromEntries(formData), user: user._id };
+
+    await NoteModel.create(payload);
+
+    revalidatePath("/notes");
+  } catch (error) {
+    console.log(error);
+    return "Failed to add note";
+  }
 }

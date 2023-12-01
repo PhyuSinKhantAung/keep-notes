@@ -2,6 +2,7 @@
 import React from "react";
 import {
   Card,
+  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -17,7 +18,13 @@ import {
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
-const NoteCard = () => {
+const NoteCard = ({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) => {
   const pathname = usePathname();
   const isTrashCard = pathname.includes("/trash");
   const isArchive = pathname.includes("/archive");
@@ -25,8 +32,12 @@ const NoteCard = () => {
   return (
     <Card className="lg:col-span-3 md:col-span-6 col-span-12 bg-background">
       <CardHeader className="p-4">
-        <CardDescription>Card Description</CardDescription>
+        <CardDescription>{title}</CardDescription>
       </CardHeader>
+
+      <CardContent className="p-4">
+        <p>{description}</p>
+      </CardContent>
 
       {isTrashCard ? (
         <CardFooter className="flex gap-x-2 p-4 cursor-pointer justify-between">
