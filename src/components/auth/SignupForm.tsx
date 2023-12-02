@@ -10,6 +10,7 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
+import { signup } from "@/lib/actions";
 
 const SignupForm = () => {
   const router = useRouter();
@@ -25,48 +26,41 @@ const SignupForm = () => {
 
   const {
     register,
-    handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
+    trigger,
   } = useForm<SignupSchemaType>({ resolver: zodResolver(SignupSchema) });
-
-  const onSubmit: SubmitHandler<SignupSchemaType> = async (data) => {
-    try {
-      setIsLoading(true);
-      await axios.post("/api/signup", data);
-      router.push("/");
-    } catch (error: any) {
-      setIsLoading(false);
-
-      return toast.error(
-        `${
-          error.response.status === 500
-            ? "Something went wrong!"
-            : error.response.data.message
-        }`
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div className=" flex justify-center items-center h-screen ">
       <Toaster />
 
       <form
-        action=""
-        onSubmit={handleSubmit(onSubmit)}
+        action={async (formData: FormData) => {
+          trigger();
+          if (!isValid) return;
+          return await signup(formData);
+        }}
         className="w-full md:w-[25%] p-4 flex flex-col gap-y-4"
       >
         <h1 className=" text-lg font-bold  text-center">Signup</h1>
 
-        <Input type="text" placeholder="Name" {...register("name")} />
+        <Input type="text" placeholder="Name" {...register("name")} required />
         <FormErrorText errors={errors} fieldname="name" />
 
-        <Input type="email" placeholder="Email" {...register("email")} />
+        <Input
+          type="email"
+          placeholder="Email"
+          {...register("email")}
+          required
+        />
         <FormErrorText errors={errors} fieldname="email" />
 
-        <Input type="text" placeholder="Password" {...register("password")} />
+        <Input
+          type="text"
+          placeholder="Password"
+          {...register("password")}
+          required
+        />
         <FormErrorText errors={errors} fieldname="password" />
 
         <div className="flex justify-between items-center">

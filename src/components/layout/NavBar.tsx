@@ -2,10 +2,37 @@
 import Image from "next/image";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { ModeToggle } from "@/components/ui/Dropdown";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Icons } from "../Icons";
+import { Button } from "../ui/button";
+import { getUserCredentials, logout } from "@/lib/actions";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import { useEffect, useState } from "react";
+import { LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const NavBar = ({ openSideBar }: { openSideBar: any }) => {
+  const [user, setUser] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    getUserCredentials().then((res) => {
+      console.log("response", res);
+      if (res) {
+        setUser(res);
+      } else {
+        router.push("/login");
+      }
+    });
+  }, [router]);
+
   return (
     <div className={`relative duration-300 border-b flex`}>
       <div className="w-1/4  py-4">
@@ -25,7 +52,7 @@ const NavBar = ({ openSideBar }: { openSideBar: any }) => {
           <h1 className="text-2xl hidden md:block">NOTES</h1>
         </div>
       </div>
-      <div className="w-1/2 py-4">
+      <div className="w-1/2 py-4 md:px-24">
         <SearchInput placeholder="Search" />
       </div>
       <div className="w-1/4 py-4">
@@ -33,14 +60,36 @@ const NavBar = ({ openSideBar }: { openSideBar: any }) => {
           <div className="hidden md:block">
             <Icons.refresh size={24} />
           </div>
-
           <div className="hidden sm:block">
             <ModeToggle />
           </div>
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+
+          {/* // TODO ~ will be fixed ui soon */}
+
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Avatar>
+                {user && (
+                  <AvatarFallback>{user.name[0].toUpperCase()}</AvatarFallback>
+                )}
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="flex flex-col gap-y-2 px-4">
+              <DropdownMenuLabel>Your Account</DropdownMenuLabel>
+
+              <small> {user && user.name}</small>
+              <small> {user && user.email}</small>
+
+              <DropdownMenuSeparator />
+
+              <form action={logout}>
+                <Button variant="link" className="p-1">
+                  <span className="mr-2">Logout</span>
+                  <LogOut size={16} />
+                </Button>
+              </form>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </div>

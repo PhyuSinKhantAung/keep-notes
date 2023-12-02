@@ -1,5 +1,5 @@
 import { useSideBarOpen } from "@/hooks/useSideBarOpen";
-import { StickyNote, List, Trash, Archive } from "lucide-react";
+import { StickyNote, Pencil, Trash, Archive } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -12,7 +12,7 @@ const SideBar = ({ open }: { open: boolean }) => {
       path: "/notes",
       gap: true,
     },
-    { title: "Lists", icon: <List />, path: "/lists" },
+    { title: "Edit labels", icon: <Pencil />, path: "/labels" },
     { title: "Archive", icon: <Archive />, path: "/archive" },
     { title: "Trash", icon: <Trash />, path: "/trash" },
   ];

@@ -1,24 +1,9 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import NextAuth from "next-auth";
+import { authConfig } from "./authConfig";
 
-export function middleware(request: NextRequest) {
-  const path = request.nextUrl.pathname;
+export default NextAuth(authConfig).auth;
 
-  const isPublicPath =
-    path === "/login" || path === "/signup" || path === "/verifyemail";
-
-  const token = request.cookies.get("token")?.value || "";
-
-  if (isPublicPath && token) {
-    return NextResponse.redirect(new URL("/", request.nextUrl));
-  }
-
-  if (!isPublicPath && !token) {
-    return NextResponse.redirect(new URL("/login", request.nextUrl));
-  }
-}
-
-// See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/", "/profile", "/login", "/signup", "/verifyemail"],
+  // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
+  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
 };
