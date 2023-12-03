@@ -1,12 +1,23 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { addNote } from "@/lib/actions";
-import React from "react";
+import React, { useRef } from "react";
+import { useFormStatus } from "react-dom";
 
 const NoteInputsForm = () => {
+  const ref = useRef<HTMLFormElement>(null);
+
   return (
-    <form action={addNote}>
+    <form
+      action={async (formData) => {
+        await addNote(formData);
+
+        ref?.current?.reset();
+      }}
+      ref={ref}
+    >
       <div className="border rounded-md md:w-[35%] mx-auto px-2  shadow-background">
         <div className="group">
           <Input
@@ -21,13 +32,25 @@ const NoteInputsForm = () => {
               placeholder="Description"
               name="description"
             />
-            <Button variant="ghost" className="float-right my-2">
-              Close
-            </Button>
+
+            <CloseButton />
           </div>
         </div>
       </div>
     </form>
+  );
+};
+
+const CloseButton = () => {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      variant="ghost"
+      className={`${pending && "opacity-10"} float-right my-2`}
+    >
+      {pending ? "Submitting..." : "Close"}
+    </Button>
   );
 };
 

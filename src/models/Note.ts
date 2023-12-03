@@ -12,6 +12,10 @@ const noteSchema = new mongoose.Schema({
     ref: "User",
     required: [true, "User is required"],
   },
+  pinned: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const NoteModel = mongoose.models.notes || mongoose.model("notes", noteSchema);

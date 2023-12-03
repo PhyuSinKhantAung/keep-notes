@@ -9,8 +9,6 @@ const NoteCardListSkeleton = () => {
       <Skeleton className="lg:col-span-3 md:col-span-6 col-span-12 p-10 h-52" />
       <Skeleton className="lg:col-span-3 md:col-span-6 col-span-12 p-10 h-52" />
       <Skeleton className="lg:col-span-3 md:col-span-6 col-span-12 p-10 h-52" />
-      <Skeleton className="lg:col-span-3 md:col-span-6 col-span-12 p-10 h-52" />
-      <Skeleton className="lg:col-span-3 md:col-span-6 col-span-12 p-10 h-52" />
     </NoteCardLayout>
   );
 };

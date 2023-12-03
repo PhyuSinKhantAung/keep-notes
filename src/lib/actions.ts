@@ -6,6 +6,7 @@ import { connectToDB } from "./mongodb";
 import UserModel from "@/models/User";
 import NoteModel from "@/models/Note";
 import { revalidatePath } from "next/cache";
+import toast from "react-hot-toast";
 
 export async function authenticate(
   prevState: string | undefined,
@@ -65,5 +66,25 @@ export async function addNote(formData: FormData) {
   } catch (error) {
     console.log(error);
     return "Failed to add note";
+  }
+}
+
+export async function handlePinnedNote(formData: FormData) {
+  try {
+    connectToDB();
+
+    const noteId = formData.get("noteId");
+
+    const { pinned } = await NoteModel.findById(noteId);
+    const payload = {
+      ...(pinned ? { pinned: false } : { pinned: true }),
+    };
+
+    await NoteModel.findByIdAndUpdate(noteId, payload);
+
+    revalidatePath("/notes");
+  } catch (error) {
+    console.log(error);
+    return "Failed to pin note";
   }
 }

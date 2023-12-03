@@ -14,6 +14,7 @@ import {
   Trash2,
   ArchiveRestore,
   FolderSync,
+  PinOff,
 } from "lucide-react";
 import IconBackground from "./ui/IconBackground";
 import { Button } from "./ui/button";
@@ -72,6 +73,16 @@ export const Icons = {
       <Pin {...props} />
     </Button>
   ),
+  unpin: (props: LucideProps) => (
+    <Button
+      size="icon"
+      variant="ghost"
+      className=" rounded-full w-10 h-10 p-0 m-0"
+    >
+      <PinOff {...props} />
+    </Button>
+  ),
+
   archive: (props: LucideProps) => (
     <Button
       size="icon"

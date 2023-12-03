@@ -10,7 +10,6 @@ import { authenticate } from "@/lib/actions";
 import { AlertCircleIcon } from "lucide-react";
 
 const LoginForm = () => {
-  const router = useRouter();
   const [state, formAction] = useFormState(authenticate, undefined);
 
   return (
@@ -24,7 +23,6 @@ const LoginForm = () => {
         <h1 className=" text-lg font-bold text-center">Login</h1>
 
         <Input type="email" placeholder="Email" name="email" required />
-        {/* <FormErrorText errors={errors} fieldname="email" /> */}
 
         <Input type="text" placeholder="Password" name="password" />
 
