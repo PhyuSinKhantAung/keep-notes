@@ -17,6 +17,7 @@ import {
   FolderSync,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { Icons } from "./Icons";
 
 const NoteCard = ({
   title,
@@ -40,24 +41,20 @@ const NoteCard = ({
       </CardContent>
 
       {isTrashCard ? (
-        <CardFooter className="flex gap-x-2 p-4 cursor-pointer justify-between">
-          <FolderSync size={18} />
-        </CardFooter>
-      ) : isArchive ? (
-        <CardFooter className="flex gap-x-2 p-4 cursor-pointer justify-between">
-          <PenSquare size={18} />
-          <Copy size={18} />
-          <Pin size={18} />
-          <ArchiveRestore size={18} />
-          <Trash2 size={18} />
+        <CardFooter className="flex gap-x-2 p-4 cursor-pointer justify-start">
+          <Icons.trashRestore size={18} />
         </CardFooter>
       ) : (
-        <CardFooter className="flex gap-x-2 p-4 cursor-pointer justify-between">
-          <PenSquare size={18} />
-          <Copy size={18} />
-          <Pin size={18} />
-          <Archive size={18} />
-          <Trash2 size={18} />
+        <CardFooter className="flex gap-x-2 p-4 cursor-pointer justify-start">
+          <Icons.pensquare size={18} />
+          <Icons.copy size={18} />
+          <Icons.pin size={18} />
+          {isArchive ? (
+            <Icons.archiveRestore size={18} />
+          ) : (
+            <Icons.archive size={18} />
+          )}
+          <Icons.delete size={18} />
         </CardFooter>
       )}
     </Card>

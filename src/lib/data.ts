@@ -7,8 +7,6 @@ export const fetchNotes = async () => {
     connectToDB();
     const { user } = await auth();
 
-    console.log("note user", user);
-
     const notes = await NoteModel.find({ user: user._id });
 
     return { data: notes, count: notes.length };

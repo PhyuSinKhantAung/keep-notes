@@ -1,7 +1,5 @@
 import {
   LucideProps,
-  Moon,
-  Twitter,
   type IconNode as LucideIcon,
   RotateCwIcon,
   AlignJustify,
@@ -9,8 +7,16 @@ import {
   MoonIcon,
   SearchIcon,
   XIcon,
+  PenSquare,
+  Copy,
+  Pin,
+  Archive,
+  Trash2,
+  ArchiveRestore,
+  FolderSync,
 } from "lucide-react";
 import IconBackground from "./ui/IconBackground";
+import { Button } from "./ui/button";
 
 export type Icon = LucideIcon;
 
@@ -36,6 +42,71 @@ export const Icons = {
     <IconBackground>
       <XIcon {...props} />
     </IconBackground>
+  ),
+  pensquare: (props: LucideProps) => (
+    <Button
+      size="icon"
+      variant="ghost"
+      className=" rounded-full w-10 h-10 p-0 m-0"
+    >
+      {" "}
+      <PenSquare {...props} />
+    </Button>
+  ),
+
+  copy: (props: LucideProps) => (
+    <Button
+      size="icon"
+      variant="ghost"
+      className=" rounded-full w-10 h-10 p-0 m-0"
+    >
+      <Copy {...props} />
+    </Button>
+  ),
+  pin: (props: LucideProps) => (
+    <Button
+      size="icon"
+      variant="ghost"
+      className=" rounded-full w-10 h-10 p-0 m-0"
+    >
+      <Pin {...props} />
+    </Button>
+  ),
+  archive: (props: LucideProps) => (
+    <Button
+      size="icon"
+      variant="ghost"
+      className=" rounded-full w-10 h-10 p-0 m-0"
+    >
+      <Archive {...props} />
+    </Button>
+  ),
+  delete: (props: LucideProps) => (
+    <Button
+      size="icon"
+      variant="ghost"
+      className=" rounded-full w-10 h-10 p-0 m-0"
+    >
+      <Trash2 {...props} />
+    </Button>
+  ),
+  archiveRestore: (props: LucideProps) => (
+    <Button
+      size="icon"
+      variant="ghost"
+      className=" rounded-full w-10 h-10 p-0 m-0"
+    >
+      <ArchiveRestore {...props} />
+    </Button>
+  ),
+  trashRestore: (props: LucideProps) => (
+    <Button
+      size="icon"
+      variant="ghost"
+      className=" rounded-full w-10 h-10 p-0 m-0"
+    >
+      <FolderSync {...props} />
+    </Button>
   ),
 
   logo: (props: LucideProps) => (
