@@ -16,6 +16,10 @@ const noteSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  archived: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const NoteModel = mongoose.models.notes || mongoose.model("notes", noteSchema);

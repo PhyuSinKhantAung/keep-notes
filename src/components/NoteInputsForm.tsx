@@ -48,6 +48,7 @@ const CloseButton = () => {
     <Button
       variant="ghost"
       className={`${pending && "opacity-10"} float-right my-2`}
+      disabled={pending}
     >
       {pending ? "Submitting..." : "Close"}
     </Button>

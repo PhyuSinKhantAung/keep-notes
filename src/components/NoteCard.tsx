@@ -9,7 +9,11 @@ import {
 } from "@/components/ui/card";
 import { usePathname } from "next/navigation";
 import { Icons } from "./Icons";
-import { handlePinnedNote } from "@/lib/actions";
+import {
+  handleArchiveNote,
+  handleDeleteNote,
+  handlePinnedNote,
+} from "@/lib/actions";
 import { useFormStatus } from "react-dom";
 
 const NoteCard = ({
@@ -60,11 +64,20 @@ const NoteCard = ({
           )}
 
           {isArchive ? (
-            <Icons.archiveRestore size={18} />
+            <form action={handleArchiveNote}>
+              <input name="noteId" className="hidden" value={id} />
+              <UnarchiveIcon />
+            </form>
           ) : (
-            <Icons.archive size={18} />
+            <form action={handleArchiveNote}>
+              <input name="noteId" className="hidden" value={id} />
+              <ArchiveIcon />
+            </form>
           )}
-          <Icons.delete size={18} />
+          <form action={handleDeleteNote}>
+            <input name="noteId" className="hidden" value={id} />
+            <DeleteIcon />
+          </form>
         </CardFooter>
       )}
     </Card>
@@ -87,6 +100,39 @@ const UnpinIcon = () => {
       size={18}
       className={`${pending && "opacity-10"}`}
     ></Icons.unpin>
+  );
+};
+
+const ArchiveIcon = () => {
+  const { pending } = useFormStatus();
+
+  return (
+    <Icons.archive
+      size={18}
+      className={`${pending && "opacity-10"}`}
+    ></Icons.archive>
+  );
+};
+
+const UnarchiveIcon = () => {
+  const { pending } = useFormStatus();
+
+  return (
+    <Icons.archiveRestore
+      size={18}
+      className={`${pending && "opacity-10"}`}
+    ></Icons.archiveRestore>
+  );
+};
+
+const DeleteIcon = () => {
+  const { pending } = useFormStatus();
+
+  return (
+    <Icons.delete
+      size={18}
+      className={`${pending && "opacity-10"}`}
+    ></Icons.delete>
   );
 };
 

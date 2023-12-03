@@ -88,3 +88,36 @@ export async function handlePinnedNote(formData: FormData) {
     return "Failed to pin note";
   }
 }
+
+export async function handleDeleteNote(formData: FormData) {
+  try {
+    connectToDB();
+    const noteId = formData.get("noteId");
+
+    await NoteModel.findByIdAndDelete(noteId);
+
+    revalidatePath("/notes");
+  } catch (error) {
+    console.log(error);
+    return "Failed to delete note";
+  }
+}
+
+export async function handleArchiveNote(formData: FormData) {
+  try {
+    connectToDB();
+    const noteId = formData.get("noteId");
+    const { archived } = await NoteModel.findById(noteId);
+
+    const payload = {
+      ...(archived ? { archived: false } : { archived: true }),
+    };
+
+    await NoteModel.findByIdAndUpdate(noteId, payload, { new: true });
+
+    revalidatePath("/notes");
+  } catch (error) {
+    console.log(error);
+    return "Failed to delete note";
+  }
+}
