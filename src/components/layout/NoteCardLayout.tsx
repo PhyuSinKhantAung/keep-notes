@@ -2,7 +2,9 @@ import React from "react";
 
 const NoteCardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="grid grid-cols-12  gap-y-4 gap-x-4 p-16">{children}</div>
+    <div className="columns-1 lg:columns-4 md:columns-2 gap-3 space-y-3 md:p-10 mt-5">
+      {children}
+    </div>
   );
 };
 

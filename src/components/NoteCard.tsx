@@ -30,7 +30,7 @@ const NoteCard = ({
   const isArchive = pathname.includes("/archive");
 
   return (
-    <Card className="lg:col-span-3 md:col-span-6 col-span-12 bg-background">
+    <Card className="bg-background break-inside-avoid">
       <CardHeader className="p-4">
         <CardDescription>{title}</CardDescription>
       </CardHeader>
