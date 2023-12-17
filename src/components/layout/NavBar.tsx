@@ -5,7 +5,6 @@ import { ModeToggle } from "@/components/ui/Dropdown";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Icons } from "../Icons";
 import { Button } from "../ui/button";
-import { getUserCredentials, logout } from "@/lib/actions";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,22 +16,9 @@ import {
 import { useEffect, useState } from "react";
 import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const NavBar = ({ openSideBar }: { openSideBar: any }) => {
-  const [user, setUser] = useState(null);
-  const router = useRouter();
-
-  useEffect(() => {
-    getUserCredentials().then((res) => {
-      console.log("response", res);
-      if (res) {
-        setUser(res);
-      } else {
-        router.push("/login");
-      }
-    });
-  }, [router]);
-
   return (
     <div className={`relative duration-300 border-b flex`}>
       <div className="w-1/4  py-4">
@@ -69,25 +55,24 @@ const NavBar = ({ openSideBar }: { openSideBar: any }) => {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
-                {user && (
+                {/* {user && (
                   <AvatarFallback>{user.name[0].toUpperCase()}</AvatarFallback>
-                )}
+                )} */}
+                user
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="flex flex-col gap-y-2 px-4">
               <DropdownMenuLabel>Your Account</DropdownMenuLabel>
 
-              <small> {user && user.name}</small>
-              <small> {user && user.email}</small>
+              {/* <small> {user && user.name}</small>
+              <small> {user && user.email}</small> */}
 
               <DropdownMenuSeparator />
 
-              <form action={logout}>
-                <Button variant="link" className="p-1">
-                  <span className="mr-2">Logout</span>
-                  <LogOut size={16} />
-                </Button>
-              </form>
+              <Link href="/api/auth/signout?callbackUrl=/">
+                <span className="mr-2">Logout</span>
+                <LogOut size={16} />
+              </Link>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

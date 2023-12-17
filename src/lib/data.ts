@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+// import { auth } from "@/auth";
 import NoteModel from "@/models/Note";
 import { connectToDB } from "./mongodb";
 import { unstable_noStore as noStore, revalidatePath } from "next/cache";
@@ -13,10 +13,13 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export const fetchNotes = async (query: Query) => {
   try {
     connectToDB();
-    const { user } = await auth();
+    // const { user } = await auth();
     const { search, pinned = false } = query;
 
-    const notes = await NoteModel.find({ user: user._id, pinned });
+    const notes = await NoteModel.find({
+      // user: user._id,
+      pinned,
+    });
     // TODO ** You need to remove this soon
     await delay(3000); // Delay for 5 seconds (5000 milliseconds)
 
