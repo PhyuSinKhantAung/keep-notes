@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { ModeToggle } from "@/components/ui/Dropdown";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Icons } from "../Icons";
 import { Button } from "../ui/button";
 import {
@@ -15,10 +15,18 @@ import {
 
 import { useEffect, useState } from "react";
 import { LogOut } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const NavBar = ({ openSideBar }: { openSideBar: any }) => {
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect("/api/auth/signin?callbackUrl=/ClientMember");
+    },
+  });
+
   return (
     <div className={`relative duration-300 border-b flex`}>
       <div className="w-1/4  py-4">
@@ -49,30 +57,39 @@ const NavBar = ({ openSideBar }: { openSideBar: any }) => {
           <div className="hidden sm:block">
             <ModeToggle />
           </div>
-
           {/* // TODO ~ will be fixed ui soon */}
 
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Avatar>
-                {/* {user && (
-                  <AvatarFallback>{user.name[0].toUpperCase()}</AvatarFallback>
-                )} */}
-                user
-              </Avatar>
+              {status === "authenticated" && (
+                <Avatar>
+                  <AvatarImage src={session.user?.picture} />
+
+                  <AvatarFallback>
+                    {session.user?.name?.[0].toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+              )}
             </DropdownMenuTrigger>
             <DropdownMenuContent className="flex flex-col gap-y-2 px-4">
               <DropdownMenuLabel>Your Account</DropdownMenuLabel>
 
-              {/* <small> {user && user.name}</small>
-              <small> {user && user.email}</small> */}
+              <small> {status === "authenticated" && session.user?.name}</small>
+              <small>{status === "authenticated" && session.user?.email}</small>
 
               <DropdownMenuSeparator />
 
-              <Link href="/api/auth/signout?callbackUrl=/">
-                <span className="mr-2">Logout</span>
-                <LogOut size={16} />
-              </Link>
+              {session ? (
+                <Link href="/api/auth/signout?callbackUrl=/">
+                  <span className="mr-2">Logout</span>
+                  <LogOut size={16} />
+                </Link>
+              ) : (
+                <Link href="/api/auth/signin">
+                  <span className="mr-2">LogIn</span>
+                  <LogOut size={16} />
+                </Link>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

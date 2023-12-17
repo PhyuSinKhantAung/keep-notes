@@ -10,7 +10,7 @@ import {
 const page = async () => {
   return (
     <div>
-      <NoteInputsForm />
+      {/* <NoteInputsForm />
       <small className="md:px-10 columns-1">Pinned</small>
       <Suspense fallback={<NoteCardListSkeleton />}>
         <PinnedNoteCardList />
@@ -18,7 +18,8 @@ const page = async () => {
       <small className="md:px-10 columns-1">Others</small>{" "}
       <Suspense fallback={<NoteCardListSkeleton />}>
         <OthersNoteCardList />
-      </Suspense>
+      </Suspense> */}
+      notes
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import AuthProvider from "@/components/auth/AuthProvider";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 
@@ -11,5 +12,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return <AuthProvider>{children}</AuthProvider>;
 }
