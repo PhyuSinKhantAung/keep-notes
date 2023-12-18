@@ -1,23 +1,22 @@
-import GitHubProvider from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
+import GitHubProvider from 'next-auth/providers/github';
+import GoogleProvider from 'next-auth/providers/google';
 
 export const options = {
   providers: [
     GitHubProvider({
       profile(profile): any {
-        console.log("Profile GitHub: ", profile);
+        console.log('Profile GitHub: ', profile);
 
-        let userRole = "GitHub User";
-        if (profile?.email == "jake@claritycoders.com") {
-          userRole = "admin";
+        let userRole = 'GitHub User';
+        if (profile?.email == 'jake@claritycoders.com') {
+          userRole = 'admin';
         }
 
         return {
           ...profile,
+          id: profile.s,
           role: userRole,
-          picture: profile.avatar_url,
+          image: profile.avatar_url,
         };
       },
       clientId: process.env.GITHUB_ID as string,
@@ -25,14 +24,15 @@ export const options = {
     }),
     GoogleProvider({
       profile(profile) {
-        console.log("Profile Google: ", profile);
+        console.log('Profile Google: ', profile);
+        console.log('id', profile.sub);
 
-        let userRole = "Google User";
+        let userRole = 'Google User';
         return {
           ...profile,
           id: profile.sub,
           role: userRole,
-          picture: profile.picture,
+          image: profile.picture,
         };
       },
       clientId: process.env.GOOGLE_ID as string,
@@ -43,18 +43,24 @@ export const options = {
 
   callbacks: {
     async jwt({ token, user }: any) {
+      console.log;
       if (user) {
         token.role = user.role;
-        token.picture = user.picture;
+        token.image = user.image;
+        token.id = user.id;
       }
       return token;
     },
     async session({ session, token }: any) {
       if (session?.user) {
         session.user.role = token.role;
-        session.user.picture = token.picture;
+        session.user.image = token.image;
+        session.user.id = token.id;
       }
       return session;
+    },
+    async redirect({ url, baseUrl }: any) {
+      return baseUrl;
     },
   },
 };

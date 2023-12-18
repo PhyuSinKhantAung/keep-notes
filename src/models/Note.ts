@@ -1,16 +1,16 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const noteSchema = new mongoose.Schema({
   title: String,
   description: String,
   label: {
     type: mongoose.Types.ObjectId,
-    ref: "Label",
+    ref: 'Label',
   },
   user: {
     type: mongoose.Types.ObjectId,
-    ref: "User",
-    required: [true, "User is required"],
+    ref: 'User',
+    required: [true, 'User is required'],
   },
   pinned: {
     type: Boolean,
@@ -22,6 +22,6 @@ const noteSchema = new mongoose.Schema({
   },
 });
 
-const NoteModel = mongoose.models.notes || mongoose.model("notes", noteSchema);
+const NoteModel = mongoose.models.notes || mongoose.model('notes', noteSchema);
 
 export default NoteModel;

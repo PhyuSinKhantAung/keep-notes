@@ -1,29 +1,29 @@
-"use client";
-import Image from "next/image";
-import { SearchInput } from "@/components/ui/SearchInput";
-import { ModeToggle } from "@/components/ui/Dropdown";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Icons } from "../Icons";
-import { Button } from "../ui/button";
+'use client';
+import Image from 'next/image';
+import { SearchInput } from '@/components/ui/SearchInput';
+import { ModeToggle } from '@/components/ui/Dropdown';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Icons } from '../Icons';
+import { Button } from '../ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 
-import { useEffect, useState } from "react";
-import { LogOut } from "lucide-react";
-import { redirect, useRouter } from "next/navigation";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { useEffect, useState } from 'react';
+import { LogOut } from 'lucide-react';
+import { redirect, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
 const NavBar = ({ openSideBar }: { openSideBar: any }) => {
   const { data: session, status } = useSession({
     required: true,
     onUnauthenticated() {
-      redirect("/api/auth/signin?callbackUrl=/ClientMember");
+      redirect('/api/auth/signin?callbackUrl=/ClientMember');
     },
   });
 
@@ -61,9 +61,9 @@ const NavBar = ({ openSideBar }: { openSideBar: any }) => {
 
           <DropdownMenu>
             <DropdownMenuTrigger>
-              {status === "authenticated" && (
+              {status === 'authenticated' && (
                 <Avatar>
-                  <AvatarImage src={session.user?.picture} />
+                  <AvatarImage src={session.user?.image || ''} />
 
                   <AvatarFallback>
                     {session.user?.name?.[0].toUpperCase()}
@@ -74,8 +74,8 @@ const NavBar = ({ openSideBar }: { openSideBar: any }) => {
             <DropdownMenuContent className="flex flex-col gap-y-2 px-4">
               <DropdownMenuLabel>Your Account</DropdownMenuLabel>
 
-              <small> {status === "authenticated" && session.user?.name}</small>
-              <small>{status === "authenticated" && session.user?.email}</small>
+              <small> {status === 'authenticated' && session.user?.name}</small>
+              <small>{status === 'authenticated' && session.user?.email}</small>
 
               <DropdownMenuSeparator />
 

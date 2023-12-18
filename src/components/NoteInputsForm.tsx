@@ -1,10 +1,10 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-// import { addNote } from "@/lib/actions";
-import React, { useRef } from "react";
-import { useFormStatus } from "react-dom";
+'use client';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { addNote } from '@/lib/actions';
+import React, { useRef } from 'react';
+import { useFormStatus } from 'react-dom';
 
 const NoteInputsForm = () => {
   const ref = useRef<HTMLFormElement>(null);
@@ -12,7 +12,7 @@ const NoteInputsForm = () => {
   return (
     <form
       action={async (formData) => {
-        // await addNote(formData);
+        await addNote(formData);
 
         ref?.current?.reset();
       }}
@@ -47,10 +47,10 @@ const CloseButton = () => {
   return (
     <Button
       variant="ghost"
-      className={`${pending && "opacity-10"} float-right my-2`}
+      className={`${pending && 'opacity-10'} float-right my-2`}
       disabled={pending}
     >
-      {pending ? "Submitting..." : "Close"}
+      {pending ? 'Submitting...' : 'Close'}
     </Button>
   );
 };
