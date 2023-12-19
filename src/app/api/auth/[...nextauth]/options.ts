@@ -1,37 +1,33 @@
+import { connectToDB } from '@/lib/mongodb';
+import UserModel from '@/models/User';
 import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 
 export const options = {
   providers: [
-    GitHubProvider({
-      profile(profile): any {
-        console.log('Profile GitHub: ', profile);
+    GoogleProvider({
+      async profile(profile) {
+        connectToDB();
 
-        let userRole = 'GitHub User';
-        if (profile?.email == 'jake@claritycoders.com') {
-          userRole = 'admin';
+        let userId;
+        try {
+          const existingUser = await UserModel.findOne({
+            email: profile.email,
+          });
+
+          if (!existingUser) {
+            const newUser = await UserModel.create({ email: profile.email });
+            userId = newUser._id;
+          } else {
+            userId = existingUser._id;
+          }
+        } catch (err: any) {
+          throw new Error(err);
         }
 
         return {
           ...profile,
-          id: profile.s,
-          role: userRole,
-          image: profile.avatar_url,
-        };
-      },
-      clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string,
-    }),
-    GoogleProvider({
-      profile(profile) {
-        console.log('Profile Google: ', profile);
-        console.log('id', profile.sub);
-
-        let userRole = 'Google User';
-        return {
-          ...profile,
-          id: profile.sub,
-          role: userRole,
+          id: userId,
           image: profile.picture,
         };
       },
@@ -39,23 +35,22 @@ export const options = {
       clientSecret: process.env.GOOGLE_SECRET as string,
     }),
   ],
+
   secret: process.env.NEXTAUTH_SECRET,
 
   callbacks: {
     async jwt({ token, user }: any) {
-      console.log;
       if (user) {
-        token.role = user.role;
-        token.image = user.image;
         token.id = user.id;
+        token.image = user.image;
       }
       return token;
     },
+
     async session({ session, token }: any) {
       if (session?.user) {
-        session.user.role = token.role;
-        session.user.image = token.image;
         session.user.id = token.id;
+        session.user.image = token.image;
       }
       return session;
     },

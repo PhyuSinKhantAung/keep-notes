@@ -27,6 +27,8 @@ const NavBar = ({ openSideBar }: { openSideBar: any }) => {
     },
   });
 
+  console.log(session, 'sessionnnnnnn');
+
   return (
     <div className={`relative duration-300 border-b flex`}>
       <div className="w-1/4  py-4">

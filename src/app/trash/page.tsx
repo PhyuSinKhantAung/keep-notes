@@ -1,7 +1,7 @@
-import NoteCard from "@/components/NoteCard";
-import NoteCardLayout from "@/components/layout/NoteCardLayout";
-import { Button } from "@/components/ui/button";
-import React from "react";
+import NoteCard from '@/components/NoteCard';
+import NoteCardLayout from '@/components/layout/NoteCardLayout';
+import { Button } from '@/components/ui/button';
+import React from 'react';
 
 const page = () => {
   return (

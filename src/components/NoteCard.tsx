@@ -1,20 +1,33 @@
-"use client";
-import React from "react";
+'use client';
+import React from 'react';
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
-} from "@/components/ui/card";
-import { usePathname } from "next/navigation";
-import { Icons } from "./Icons";
+} from '@/components/ui/card';
+import { usePathname } from 'next/navigation';
+import { Icons } from './Icons';
 import {
   handleArchiveNote,
   handleDeleteNote,
   handlePinnedNote,
-} from "@/lib/actions";
-import { useFormStatus } from "react-dom";
+} from '@/lib/actions';
+import { useFormStatus } from 'react-dom';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from './ui/textarea';
 
 const NoteCard = ({
   title,
@@ -28,10 +41,8 @@ const NoteCard = ({
   id: string;
 }) => {
   const pathname = usePathname();
-  const isTrashCard = pathname.includes("/trash");
-  const isArchive = pathname.includes("/archive");
-
-  // const [state, formAction] = useFormState(handlePinnedNote, undefined);
+  const isTrashCard = pathname.includes('/trash');
+  const isArchive = pathname.includes('/archive');
 
   return (
     <Card className="bg-background break-inside-avoid">
@@ -48,8 +59,34 @@ const NoteCard = ({
           <Icons.trashRestore size={18} />
         </CardFooter>
       ) : (
-        <CardFooter className="flex gap-x-2 p-4 cursor-pointer justify-start">
-          <Icons.pensquare size={18} />
+        <CardFooter className="flex gap-x-2 p-4 cursor-pointer md:justify-between justify-start">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Icons.pensquare size={18} />
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px] bg-white dark:bg-black">
+              <form>
+                <div className="rounded-md md:max-2xl mx-auto px-2">
+                  <Input
+                    className="border-0 rounded-none focus:outline-0 "
+                    placeholder="Title"
+                    name="title"
+                  />
+
+                  <Textarea
+                    className="border-0 rounded-none focus:outline-0 resize-none"
+                    placeholder="Description"
+                    name="description"
+                  />
+                </div>
+                <DialogFooter>
+                  <Button type="submit">Close</Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
+
+          {/* <Icons.pensquare size={18} /> */}
           <Icons.copy size={18} />
           {pinned ? (
             <form action={handlePinnedNote}>
@@ -88,7 +125,7 @@ const PinIcon = () => {
   const { pending } = useFormStatus();
 
   return (
-    <Icons.pin size={18} className={`${pending && "opacity-10"}`}></Icons.pin>
+    <Icons.pin size={18} className={`${pending && 'opacity-10'}`}></Icons.pin>
   );
 };
 
@@ -98,7 +135,7 @@ const UnpinIcon = () => {
   return (
     <Icons.unpin
       size={18}
-      className={`${pending && "opacity-10"}`}
+      className={`${pending && 'opacity-10'}`}
     ></Icons.unpin>
   );
 };
@@ -109,7 +146,7 @@ const ArchiveIcon = () => {
   return (
     <Icons.archive
       size={18}
-      className={`${pending && "opacity-10"}`}
+      className={`${pending && 'opacity-10'}`}
     ></Icons.archive>
   );
 };
@@ -120,7 +157,7 @@ const UnarchiveIcon = () => {
   return (
     <Icons.archiveRestore
       size={18}
-      className={`${pending && "opacity-10"}`}
+      className={`${pending && 'opacity-10'}`}
     ></Icons.archiveRestore>
   );
 };
@@ -131,7 +168,7 @@ const DeleteIcon = () => {
   return (
     <Icons.delete
       size={18}
-      className={`${pending && "opacity-10"}`}
+      className={`${pending && 'opacity-10'}`}
     ></Icons.delete>
   );
 };

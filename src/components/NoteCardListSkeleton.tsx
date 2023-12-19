@@ -1,6 +1,6 @@
-import React from "react";
-import NoteCardLayout from "./layout/NoteCardLayout";
-import { Skeleton } from "./ui/skeleton";
+import React from 'react';
+import NoteCardLayout from './layout/NoteCardLayout';
+import { Skeleton } from './ui/skeleton';
 
 const NoteCardListSkeleton = () => {
   return (
