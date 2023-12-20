@@ -163,10 +163,10 @@ const TrashIcon = () => {
   const { pending } = useFormStatus();
 
   return (
-    <Icons.delete
+    <Icons.trash
       size={18}
       className={`${pending && 'opacity-10'}`}
-    ></Icons.delete>
+    ></Icons.trash>
   );
 };
 
