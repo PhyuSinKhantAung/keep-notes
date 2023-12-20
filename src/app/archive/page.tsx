@@ -1,16 +1,15 @@
-import NoteCard from "@/components/NoteCard";
-import NoteCardLayout from "@/components/layout/NoteCardLayout";
-import React from "react";
+import React from 'react';
+import { ArchivedNoteCardList } from '@/components/NoteCardList';
+import NoteCardListSkeleton from '@/components/NoteCardListSkeleton';
+import { Suspense } from 'react';
 
 const page = () => {
   return (
-    <div>
-      <NoteCardLayout>
-        <NoteCard />
-        <NoteCard />
-        <NoteCard />
-      </NoteCardLayout>
-    </div>
+    <>
+      <Suspense fallback={<NoteCardListSkeleton />}>
+        <ArchivedNoteCardList />
+      </Suspense>
+    </>
   );
 };
 

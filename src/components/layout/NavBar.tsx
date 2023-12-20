@@ -1,53 +1,45 @@
-"use client";
-import Image from "next/image";
-import { SearchInput } from "@/components/ui/SearchInput";
-import { ModeToggle } from "@/components/ui/Dropdown";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Icons } from "../Icons";
-import { Button } from "../ui/button";
-import { getUserCredentials, logout } from "@/lib/actions";
+'use client';
+import Image from 'next/image';
+import { redirect } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { useTheme } from 'next-themes';
+import Link from 'next/link';
+import { SearchInput } from '@/components/ui/SearchInput';
+import { ModeToggle } from '@/components/ui/Dropdown';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  DropdownMenuItem,
+} from '@/components/ui/dropdown-menu';
+import {
+  Archive,
+  LogOut,
+  Moon,
+  RefreshCcw,
+  Settings,
+  Sun,
+  Trash,
+} from 'lucide-react';
+import { Icons } from '../Icons';
 
-import { useEffect, useState } from "react";
-import { LogOut } from "lucide-react";
-import { useRouter } from "next/navigation";
+const NavBar = () => {
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect('/api/auth/signin?callbackUrl=/ClientMember');
+    },
+  });
 
-const NavBar = ({ openSideBar }: { openSideBar: any }) => {
-  const [user, setUser] = useState(null);
-  const router = useRouter();
-
-  useEffect(() => {
-    getUserCredentials().then((res) => {
-      console.log("response", res);
-      if (res) {
-        setUser(res);
-      } else {
-        router.push("/login");
-      }
-    });
-  }, [router]);
+  const { setTheme, theme } = useTheme();
 
   return (
     <div className={`relative duration-300 border-b flex`}>
       <div className="w-1/4  py-4">
         <div className="flex items-center gap-x-2 pl-6">
-          <div onClick={openSideBar}>
-            <Icons.hamburger_menu size={24} />
-          </div>
-
-          <Image
-            src="/notebook.png"
-            alt="notebook"
-            width={32}
-            height={24}
-            className="hidden sm:block"
-          />
+          <Image src="/notebook.png" alt="notebook" width={32} height={24} />
 
           <h1 className="text-2xl hidden md:block">NOTES</h1>
         </div>
@@ -58,36 +50,86 @@ const NavBar = ({ openSideBar }: { openSideBar: any }) => {
       <div className="w-1/4 py-4">
         <div className="flex justify-end gap-x-2 md:gap-x-6 items-center pr-2 md:pr-10 cursor-pointer ">
           <div className="hidden md:block">
-            <Icons.refresh size={24} />
+            <Icons.refresh size={24} onClick={() => window.location.reload()} />
           </div>
-          <div className="hidden sm:block">
+          <div className="hidden md:block">
             <ModeToggle />
           </div>
 
-          {/* // TODO ~ will be fixed ui soon */}
-
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Avatar>
-                {user && (
-                  <AvatarFallback>{user.name[0].toUpperCase()}</AvatarFallback>
-                )}
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="flex flex-col gap-y-2 px-4">
-              <DropdownMenuLabel>Your Account</DropdownMenuLabel>
+            <DropdownMenuTrigger className="pr-5">
+              {status === 'authenticated' && (
+                <Avatar>
+                  <AvatarImage src={session.user?.image || ''} />
 
-              <small> {user && user.name}</small>
-              <small> {user && user.email}</small>
+                  <AvatarFallback>
+                    {session.user?.name?.[0].toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+              )}
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuItem
+                className="md:hidden"
+                onClick={() => window.location.reload()}
+              >
+                <RefreshCcw size={14} className="mx-3" />
+                Refresh
+              </DropdownMenuItem>
+
+              <Link href="/">
+                <DropdownMenuItem className="md:hidden">
+                  <Settings size={14} className="mx-3" />
+                  Setting
+                </DropdownMenuItem>
+              </Link>
+
+              <Link href="/archive">
+                <DropdownMenuItem>
+                  <Archive size={14} className="mx-3" />
+                  Archive
+                </DropdownMenuItem>
+              </Link>
+
+              <Link href="/trash">
+                <DropdownMenuItem>
+                  <Trash size={14} className="mx-3" />
+                  Trash
+                </DropdownMenuItem>
+              </Link>
+
+              <DropdownMenuItem
+                onClick={() => {
+                  if (theme === 'light') {
+                    return setTheme('dark');
+                  } else return setTheme('light');
+                }}
+              >
+                {theme === 'light' ? (
+                  <Sun size={14} className="mx-3" />
+                ) : (
+                  <Moon size={14} className="mx-3" />
+                )}
+                Mode
+              </DropdownMenuItem>
 
               <DropdownMenuSeparator />
-
-              <form action={logout}>
-                <Button variant="link" className="p-1">
-                  <span className="mr-2">Logout</span>
-                  <LogOut size={16} />
-                </Button>
-              </form>
+              {session ? (
+                <Link href="/api/auth/signout?callbackUrl=/">
+                  <DropdownMenuItem>
+                    <LogOut size={14} className="mx-3" />
+                    Log out
+                  </DropdownMenuItem>
+                </Link>
+              ) : (
+                <Link href="/api/auth/signin">
+                  <DropdownMenuItem>
+                    <LogOut size={14} className="mx-3" />
+                    Log in
+                  </DropdownMenuItem>
+                </Link>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

@@ -1,71 +1,25 @@
-"use server";
-import bcrypt from "bcrypt";
-import { auth, signIn, signOut } from "@/auth";
-import { redirect } from "next/navigation";
-import { connectToDB } from "./mongodb";
-import UserModel from "@/models/User";
-import NoteModel from "@/models/Note";
-import { revalidatePath } from "next/cache";
-import toast from "react-hot-toast";
-
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData
-) {
-  try {
-    await signIn("credentials", {
-      ...Object.fromEntries(formData),
-      redirect: false,
-    });
-  } catch (error) {
-    return "Wrong credentials!";
-  }
-  redirect("/");
-}
-
-export async function logout() {
-  await signOut();
-  redirect("/login");
-}
-
-export async function getUserCredentials() {
-  const { user } = await auth();
-  return user;
-}
-
-export async function signup(formData: FormData) {
-  try {
-    connectToDB();
-
-    const password = formData.get("password");
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = bcrypt.hash(password, salt);
-
-    await UserModel.create({
-      ...Object.fromEntries(formData),
-      password: hashedPassword,
-    });
-  } catch (error) {
-    console.log(error);
-    return "Failed to signup user";
-  }
-  redirect("/");
-}
+'use server';
+import { connectToDB } from './mongodb';
+import NoteModel from '@/models/Note';
+import { revalidatePath } from 'next/cache';
+import { getServerSession } from 'next-auth';
+import { options } from '@/app/api/auth/[...nextauth]/options';
 
 export async function addNote(formData: FormData) {
   try {
     connectToDB();
 
-    const user = await getUserCredentials();
+    const session = await getServerSession(options);
+    const user = session.user.id;
 
-    const payload = { ...Object.fromEntries(formData), user: user._id };
+    const payload = { ...Object.fromEntries(formData), user };
 
     await NoteModel.create(payload);
 
-    revalidatePath("/notes");
+    revalidatePath('/notes');
   } catch (error) {
     console.log(error);
-    return "Failed to add note";
+    return 'Failed to add note';
   }
 }
 
@@ -73,7 +27,7 @@ export async function handlePinnedNote(formData: FormData) {
   try {
     connectToDB();
 
-    const noteId = formData.get("noteId");
+    const noteId = formData.get('noteId');
 
     const { pinned } = await NoteModel.findById(noteId);
     const payload = {
@@ -82,31 +36,31 @@ export async function handlePinnedNote(formData: FormData) {
 
     await NoteModel.findByIdAndUpdate(noteId, payload);
 
-    revalidatePath("/notes");
+    revalidatePath('/notes');
   } catch (error) {
     console.log(error);
-    return "Failed to pin note";
+    return 'Failed to pin note';
   }
 }
 
 export async function handleDeleteNote(formData: FormData) {
   try {
     connectToDB();
-    const noteId = formData.get("noteId");
+    const noteId = formData.get('noteId');
 
     await NoteModel.findByIdAndDelete(noteId);
 
-    revalidatePath("/notes");
+    revalidatePath('/notes');
   } catch (error) {
     console.log(error);
-    return "Failed to delete note";
+    return 'Failed to delete note';
   }
 }
 
 export async function handleArchiveNote(formData: FormData) {
   try {
     connectToDB();
-    const noteId = formData.get("noteId");
+    const noteId = formData.get('noteId');
     const { archived } = await NoteModel.findById(noteId);
 
     const payload = {
@@ -115,9 +69,30 @@ export async function handleArchiveNote(formData: FormData) {
 
     await NoteModel.findByIdAndUpdate(noteId, payload, { new: true });
 
-    revalidatePath("/notes");
+    revalidatePath('/archive');
   } catch (error) {
     console.log(error);
-    return "Failed to delete note";
+    return 'Failed to archive note';
+  }
+}
+
+export async function handleTrashedNote(formData: FormData) {
+  try {
+    connectToDB();
+    const noteId = formData.get('noteId');
+    const { trashed } = await NoteModel.findById(noteId);
+
+    const payload = {
+      ...(trashed ? { trashed: false } : { trashed: true }),
+      archived: false,
+      pinned: false,
+    };
+
+    await NoteModel.findByIdAndUpdate(noteId, payload, { new: true });
+
+    revalidatePath('/trash');
+  } catch (error) {
+    console.log(error);
+    return 'Failed to remove note';
   }
 }

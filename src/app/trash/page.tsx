@@ -1,22 +1,14 @@
-import NoteCard from "@/components/NoteCard";
-import NoteCardLayout from "@/components/layout/NoteCardLayout";
-import { Button } from "@/components/ui/button";
-import React from "react";
+import React from 'react';
+import NoteCardListSkeleton from '@/components/NoteCardListSkeleton';
+import { Suspense } from 'react';
+import { TrashedNoteCardList } from '@/components/NoteCardList';
 
 const page = () => {
   return (
     <div>
-      <div className="flex justify-center items-center p-5">
-        <h1 className="italic">Notes in trash are deleted after 7 days.</h1>
-        <Button variant="ghost">Empty Trash</Button>
-      </div>
-      <NoteCardLayout>
-        <NoteCard />
-        <NoteCard />
-        <NoteCard />
-        <NoteCard />
-        <NoteCard />
-      </NoteCardLayout>
+      <Suspense fallback={<NoteCardListSkeleton />}>
+        <TrashedNoteCardList />
+      </Suspense>
     </div>
   );
 };
