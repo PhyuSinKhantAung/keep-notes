@@ -17,7 +17,7 @@ const page = async () => {
       <Suspense fallback={<NoteCardListSkeleton />}>
         <PinnedNoteCardList />
       </Suspense>
-      <small className="md:px-10 columns-1 font-bold">Others</small>{' '}
+      <small className="md:px-10 columns-1 font-bold">Others</small>
       <Suspense fallback={<NoteCardListSkeleton />}>
         <OthersNoteCardList />
       </Suspense>

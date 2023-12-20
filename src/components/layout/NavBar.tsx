@@ -1,8 +1,12 @@
+'use client';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { useTheme } from 'next-themes';
+import Link from 'next/link';
 import { SearchInput } from '@/components/ui/SearchInput';
 import { ModeToggle } from '@/components/ui/Dropdown';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Icons } from '../Icons';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +14,6 @@ import {
   DropdownMenuTrigger,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
-import Link from 'next/link';
 import {
   Archive,
   LogOut,
@@ -20,9 +23,7 @@ import {
   Sun,
   Trash,
 } from 'lucide-react';
-import { redirect, useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
-import { useTheme } from 'next-themes';
+import { Icons } from '../Icons';
 
 const NavBar = () => {
   const { data: session, status } = useSession({
@@ -33,7 +34,6 @@ const NavBar = () => {
   });
 
   const { setTheme, theme } = useTheme();
-  // const { refresh } = useRouter();
 
   return (
     <div className={`relative duration-300 border-b flex`}>

@@ -1,6 +1,10 @@
-import AuthProvider from '@/components/auth/AuthProvider';
 import '@/styles/globals.css';
 import type { Metadata } from 'next';
+import { ThemeProvider } from '@/components/ThemeProvider';
+import { fontSans } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
+import BaseLayout from '@/components/layout/RootLayout';
+import AuthProvider from '@/components/auth/AuthProvider';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 
@@ -15,8 +19,30 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession();
+
   if (!session) {
     redirect('/api/auth/signin?callbackUrl=/ClientMember');
   }
-  return <AuthProvider>{children}</AuthProvider>;
+
+  return (
+    <html lang="en">
+      <body
+        className={cn(
+          'bg-background font-sans antialiased flex flex-col',
+          fontSans.variable
+        )}
+      >
+        <AuthProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <BaseLayout>{children}</BaseLayout>
+          </ThemeProvider>
+        </AuthProvider>
+      </body>
+    </html>
+  );
 }

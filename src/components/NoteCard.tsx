@@ -11,22 +11,18 @@ import { usePathname } from 'next/navigation';
 import { Icons } from './Icons';
 import {
   handleArchiveNote,
-  handleDeleteNote,
   handlePinnedNote,
+  handleTrashedNote,
 } from '@/lib/actions';
 import { useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from './ui/textarea';
 
 const NoteCard = ({
@@ -56,7 +52,10 @@ const NoteCard = ({
 
       {isTrashCard ? (
         <CardFooter className="flex gap-x-2 p-4 cursor-pointer justify-start">
-          <Icons.trashRestore size={18} />
+          <form action={handleTrashedNote}>
+            <input name="noteId" className="hidden" value={id} />
+            <UntrashIcon />
+          </form>
         </CardFooter>
       ) : (
         <CardFooter className="flex gap-x-2 p-4 cursor-pointer md:justify-between justify-start">
@@ -109,9 +108,9 @@ const NoteCard = ({
               <ArchiveIcon />
             </form>
           )}
-          <form action={handleDeleteNote}>
+          <form action={handleTrashedNote}>
             <input name="noteId" className="hidden" value={id} />
-            <DeleteIcon />
+            <TrashIcon />
           </form>
         </CardFooter>
       )}
@@ -160,7 +159,7 @@ const UnarchiveIcon = () => {
   );
 };
 
-const DeleteIcon = () => {
+const TrashIcon = () => {
   const { pending } = useFormStatus();
 
   return (
@@ -171,4 +170,14 @@ const DeleteIcon = () => {
   );
 };
 
+const UntrashIcon = () => {
+  const { pending } = useFormStatus();
+
+  return (
+    <Icons.trashRestore
+      size={18}
+      className={`${pending && 'opacity-10'}`}
+    ></Icons.trashRestore>
+  );
+};
 export default NoteCard;

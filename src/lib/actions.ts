@@ -72,6 +72,27 @@ export async function handleArchiveNote(formData: FormData) {
     revalidatePath('/archive');
   } catch (error) {
     console.log(error);
-    return 'Failed to delete note';
+    return 'Failed to archive note';
+  }
+}
+
+export async function handleTrashedNote(formData: FormData) {
+  try {
+    connectToDB();
+    const noteId = formData.get('noteId');
+    const { trashed } = await NoteModel.findById(noteId);
+
+    const payload = {
+      ...(trashed ? { trashed: false } : { trashed: true }),
+      archived: false,
+      pinned: false,
+    };
+
+    await NoteModel.findByIdAndUpdate(noteId, payload, { new: true });
+
+    revalidatePath('/trash');
+  } catch (error) {
+    console.log(error);
+    return 'Failed to remove note';
   }
 }
