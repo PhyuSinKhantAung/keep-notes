@@ -51,7 +51,7 @@ const NoteCard = ({
       </CardHeader>
 
       <CardContent className="p-4">
-        <p>{description}</p>
+        <p className="line-clamp-5">{description}</p>
       </CardContent>
 
       {isTrashCard ? (
@@ -86,8 +86,6 @@ const NoteCard = ({
             </DialogContent>
           </Dialog>
 
-          {/* <Icons.pensquare size={18} /> */}
-          <Icons.copy size={18} />
           {pinned ? (
             <form action={handlePinnedNote}>
               <input name="noteId" className="hidden" value={id} />

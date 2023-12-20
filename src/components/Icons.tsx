@@ -15,9 +15,11 @@ import {
   ArchiveRestore,
   FolderSync,
   PinOff,
-} from "lucide-react";
-import IconBackground from "./ui/IconBackground";
-import { Button } from "./ui/button";
+  Settings,
+  LogOut,
+} from 'lucide-react';
+import IconBackground from './ui/IconBackground';
+import { Button } from './ui/button';
 
 export type Icon = LucideIcon;
 
@@ -50,7 +52,7 @@ export const Icons = {
       variant="ghost"
       className=" rounded-full w-10 h-10 p-0 m-0"
     >
-      {" "}
+      {' '}
       <PenSquare {...props} />
     </Button>
   ),
@@ -117,6 +119,25 @@ export const Icons = {
       className=" rounded-full w-10 h-10 p-0 m-0"
     >
       <FolderSync {...props} />
+    </Button>
+  ),
+  setting: (props: LucideProps) => (
+    <Button
+      size="icon"
+      variant="ghost"
+      className=" rounded-full w-10 h-10 p-0 m-0"
+    >
+      <Settings {...props} />
+    </Button>
+  ),
+
+  logout: (props: LucideProps) => (
+    <Button
+      size="icon"
+      variant="ghost"
+      className=" rounded-full w-10 h-10 p-0 m-0"
+    >
+      <LogOut {...props} />
     </Button>
   ),
 

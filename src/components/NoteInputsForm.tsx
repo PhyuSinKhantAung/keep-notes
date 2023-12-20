@@ -18,7 +18,7 @@ const NoteInputsForm = () => {
       }}
       ref={ref}
     >
-      <div className="border rounded-md md:w-[35%] mx-auto px-2  shadow-background">
+      <div className="border rounded-md md:max-w-lg mx-auto px-2  shadow-background">
         <div className="group">
           <Input
             className="border-0 rounded-none focus:outline-0 "

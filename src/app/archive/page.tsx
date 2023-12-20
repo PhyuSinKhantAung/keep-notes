@@ -1,12 +1,16 @@
-import NoteCard from '@/components/NoteCard';
 import { ArchivedNoteCardList } from '@/components/NoteCardList';
-import NoteCardLayout from '@/components/layout/NoteCardLayout';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import React from 'react';
 
 const page = () => {
   return (
     <div>
       <ArchivedNoteCardList />
+
+      <Link href="/">
+        <Button variant="outline">Back</Button>
+      </Link>
     </div>
   );
 };

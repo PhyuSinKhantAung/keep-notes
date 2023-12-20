@@ -22,11 +22,15 @@ export const fetchNotes = async (query: Query) => {
       user: user.id,
       pinned,
       archived,
-    }).select('title description pinned archived');
+    })
+      .sort('-createdAt')
+      .select('title description pinned archived');
     // TODO ** You need to remove this soon
     await delay(3000); // Delay for 5 seconds (5000 milliseconds)
 
     const data = JSON.parse(JSON.stringify(notes));
+
+    console.log(data);
 
     noStore();
     return { data, count: notes.length };
