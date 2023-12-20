@@ -1,5 +1,14 @@
 'use client';
 import React from 'react';
+import { useFormStatus } from 'react-dom';
+import { usePathname } from 'next/navigation';
+import { Icons } from './Icons';
+import { Textarea } from './ui/textarea';
+import {
+  handleArchiveNote,
+  handlePinnedNote,
+  handleTrashedNote,
+} from '@/lib/actions';
 import {
   Card,
   CardContent,
@@ -7,23 +16,14 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/card';
-import { usePathname } from 'next/navigation';
-import { Icons } from './Icons';
-import {
-  handleArchiveNote,
-  handlePinnedNote,
-  handleTrashedNote,
-} from '@/lib/actions';
-import { useFormStatus } from 'react-dom';
-import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from './ui/textarea';
 
 const NoteCard = ({
   title,

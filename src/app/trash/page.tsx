@@ -1,6 +1,3 @@
-import NoteCard from '@/components/NoteCard';
-import NoteCardLayout from '@/components/layout/NoteCardLayout';
-import { Button } from '@/components/ui/button';
 import React from 'react';
 import NoteCardListSkeleton from '@/components/NoteCardListSkeleton';
 import { Suspense } from 'react';
