@@ -63,7 +63,7 @@ const NoteCard = ({
             <DialogTrigger asChild>
               <Icons.pensquare size={18} />
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] bg-white dark:bg-black">
+            <DialogContent className="sm:max-w-[425px] h-full md:h-[90%] bg-white dark:bg-black">
               <form>
                 <div className="rounded-md md:max-2xl mx-auto px-2">
                   <Input
@@ -72,6 +72,14 @@ const NoteCard = ({
                     name="title"
                   />
 
+                  <p>
+                    <strong>Solution with span:</strong>{' '}
+                    <span
+                      className="textarea"
+                      role="textbox"
+                      contentEditable
+                    ></span>
+                  </p>
                   <Textarea
                     className="border-0 rounded-none focus:outline-0 resize-none"
                     placeholder="Description"

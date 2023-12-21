@@ -15,8 +15,6 @@ import {
   ArchiveRestore,
   FolderSync,
   PinOff,
-  Settings,
-  LogOut,
 } from 'lucide-react';
 import { Button } from './ui/button';
 
