@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { redirect } from 'next/navigation';
+// import { redirect } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
@@ -26,12 +26,13 @@ import {
 import { Icons } from '../Icons';
 
 const NavBar = () => {
-  const { data: session, status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      redirect('/api/auth/signin?callbackUrl=/ClientMember');
-    },
-  });
+  const { data: session, status } = useSession();
+  // {
+  // required: true,
+  // onUnauthenticated() {
+  //   redirect('/api/auth/signin?callbackUrl=/ClientMember');
+  // },
+  // }
 
   const { setTheme, theme } = useTheme();
 
