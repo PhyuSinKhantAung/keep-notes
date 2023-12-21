@@ -41,7 +41,7 @@ const NoteCard = ({
   const isArchive = pathname.includes('/archive');
 
   return (
-    <Card className="bg-background break-inside-avoid">
+    <Card className="bg-background break-inside-avoid ">
       <CardHeader className="p-4">
         <CardDescription>{title}</CardDescription>
       </CardHeader>
@@ -58,7 +58,7 @@ const NoteCard = ({
           </form>
         </CardFooter>
       ) : (
-        <CardFooter className="flex gap-x-2 p-4 cursor-pointer md:justify-between justify-start">
+        <CardFooter className="flex gap-x-2 p-4 md:justify-between justify-start">
           <Dialog>
             <DialogTrigger asChild>
               <Icons.pensquare size={18} />

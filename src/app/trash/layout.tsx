@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <BaseLayout title="Trashed notes">{children}</BaseLayout>
+      <BaseLayout title="Trashed Notes">{children}</BaseLayout>
     </>
   );
 }
