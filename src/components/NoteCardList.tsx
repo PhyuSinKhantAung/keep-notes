@@ -25,15 +25,18 @@ export const PinnedNoteCardList = async () => {
       {pinnedNotes.count === 0 && (
         <small className="italic">There is no pinned note</small>
       )}
-      {pinnedNotes.data.map((item: Note) => (
-        <NoteCard
-          key={item._id}
-          title={item.title}
-          description={item.description}
-          id={item._id}
-          pinned={item.pinned}
-        />
-      ))}
+      {pinnedNotes.count !== 0 &&
+        pinnedNotes.data.map((item: Note) => (
+          <NoteCard
+            key={item._id}
+            title={item.title}
+            description={item.description}
+            id={item._id}
+            pinned={item.pinned}
+            archived={item.archived}
+            trashed={item.trashed}
+          />
+        ))}
     </NoteCardLayout>
   );
 };
@@ -41,21 +44,26 @@ export const PinnedNoteCardList = async () => {
 export const OthersNoteCardList = async () => {
   const othersNotes = await fetchNotes({
     search: '',
-    pinned: undefined,
-    archived: undefined,
+    pinned: false,
+    archived: false,
     trashed: false,
   });
+
+  console.log(othersNotes);
   return (
     <NoteCardLayout>
-      {othersNotes.data.map((item: Note) => (
-        <NoteCard
-          key={item._id}
-          title={item.title}
-          description={item.description}
-          id={item._id}
-          pinned={item.pinned}
-        />
-      ))}
+      {othersNotes.count !== 0 &&
+        othersNotes.data.map((item: Note) => (
+          <NoteCard
+            key={item._id}
+            title={item.title}
+            description={item.description}
+            id={item._id}
+            pinned={item.pinned}
+            archived={item.archived}
+            trashed={item.trashed}
+          />
+        ))}
     </NoteCardLayout>
   );
 };
@@ -76,15 +84,18 @@ export const ArchivedNoteCardList = async () => {
         </div>
       )}
       <NoteCardLayout>
-        {archivedNotes.data.map((item: Note) => (
-          <NoteCard
-            key={item._id}
-            title={item.title}
-            description={item.description}
-            id={item._id}
-            pinned={item.pinned}
-          />
-        ))}
+        {archivedNotes.count !== 0 &&
+          archivedNotes.data.map((item: Note) => (
+            <NoteCard
+              key={item._id}
+              title={item.title}
+              description={item.description}
+              id={item._id}
+              pinned={item.pinned}
+              archived={item.archived}
+              trashed={item.trashed}
+            />
+          ))}
       </NoteCardLayout>
     </>
   );
@@ -93,8 +104,8 @@ export const ArchivedNoteCardList = async () => {
 export const TrashedNoteCardList = async () => {
   const trashedNotes = await fetchNotes({
     search: '',
-    pinned: false,
-    archived: false,
+    pinned: undefined,
+    archived: undefined,
     trashed: true,
   });
 
@@ -107,15 +118,18 @@ export const TrashedNoteCardList = async () => {
         </div>
       )}
       <NoteCardLayout>
-        {trashedNotes.data.map((item: Note) => (
-          <NoteCard
-            key={item._id}
-            title={item.title}
-            description={item.description}
-            id={item._id}
-            pinned={item.pinned}
-          />
-        ))}
+        {trashedNotes.count !== 0 &&
+          trashedNotes.data.map((item: Note) => (
+            <NoteCard
+              key={item._id}
+              title={item.title}
+              description={item.description}
+              id={item._id}
+              pinned={item.pinned}
+              archived={item.archived}
+              trashed={item.trashed}
+            />
+          ))}
       </NoteCardLayout>
     </>
   );

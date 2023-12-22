@@ -13,10 +13,12 @@ const page = async () => {
       <div className="mb-10">
         <NoteInputsForm />
       </div>
-      <small className="md:px-10 columns-1 font-bold">Pinned</small>
+
+      <small className="md:px-10 my-5 columns-1 font-bold">Pinned</small>
       <Suspense fallback={<NoteCardListSkeleton />}>
         <PinnedNoteCardList />
       </Suspense>
+
       <small className="md:px-10 columns-1 font-bold">Others</small>
       <Suspense fallback={<NoteCardListSkeleton />}>
         <OthersNoteCardList />

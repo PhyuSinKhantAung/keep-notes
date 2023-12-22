@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import { useFormStatus } from 'react-dom';
-import { usePathname } from 'next/navigation';
 import { Icons } from './Icons';
 import { Textarea } from './ui/textarea';
 import {
@@ -29,17 +28,17 @@ const NoteCard = ({
   title,
   description,
   pinned,
+  archived,
+  trashed,
   id,
 }: {
   title: string;
   description: string;
   pinned: boolean;
+  archived: boolean;
+  trashed: boolean;
   id: string;
 }) => {
-  const pathname = usePathname();
-  const isTrashCard = pathname.includes('/trash');
-  const isArchive = pathname.includes('/archive');
-
   return (
     <Card className="bg-background break-inside-avoid ">
       <CardHeader className="p-4">
@@ -50,7 +49,7 @@ const NoteCard = ({
         <p className="line-clamp-5">{description}</p>
       </CardContent>
 
-      {isTrashCard ? (
+      {trashed ? (
         <CardFooter className="flex gap-x-2 p-4 cursor-pointer justify-start">
           <form action={handleTrashedNote}>
             <input name="noteId" className="hidden" value={id} />
@@ -105,7 +104,7 @@ const NoteCard = ({
             </form>
           )}
 
-          {isArchive ? (
+          {archived ? (
             <form action={handleArchiveNote}>
               <input name="noteId" className="hidden" value={id} />
               <UnarchiveIcon />

@@ -10,7 +10,7 @@ const BaseLayout = ({
 }) => {
   return (
     <div>
-      <div className="mt-5 md:px-10 flex">
+      <div className="my-5 md:px-10 flex">
         <Label>{title}</Label>
       </div>
       {children}
