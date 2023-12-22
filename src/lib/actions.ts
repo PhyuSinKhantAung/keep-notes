@@ -46,9 +46,10 @@ export async function handlePinnedNote(formData: FormData) {
 export async function handleDeleteNote(formData: FormData) {
   try {
     connectToDB();
-    const noteId = formData.get('noteId');
+    const session = await getServerSession(options);
+    const user = session.user.id;
 
-    await NoteModel.findByIdAndDelete(noteId);
+    await NoteModel.deleteMany({ user, trashed: true });
 
     revalidatePath('/notes');
   } catch (error) {

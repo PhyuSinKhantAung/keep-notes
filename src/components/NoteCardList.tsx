@@ -3,6 +3,7 @@ import NoteCardLayout from './layout/NoteCardLayout';
 import { fetchNotes } from '@/lib/data';
 import NoteCard from './NoteCard';
 import { Button } from './ui/button';
+import { handleDeleteNote } from '@/lib/actions';
 
 interface Note {
   _id: string;
@@ -49,7 +50,6 @@ export const OthersNoteCardList = async () => {
     trashed: false,
   });
 
-  console.log(othersNotes);
   return (
     <NoteCardLayout>
       {othersNotes.count !== 0 &&
@@ -111,10 +111,16 @@ export const TrashedNoteCardList = async () => {
 
   return (
     <>
-      {trashedNotes.count === 0 && (
+      {trashedNotes.count === 0 ? (
+        <div className="flex flex-col md:flex-row justify-center items-center p-5">
+          <h1 className="italic">Trash is empty.</h1>
+        </div>
+      ) : (
         <div className="flex flex-col md:flex-row justify-center items-center p-5">
           <h1 className="italic">Notes in trash are deleted after 7 days.</h1>
-          <Button variant="ghost">Empty Trash</Button>
+          <form action={handleDeleteNote}>
+            <Button variant="ghost">Empty Trash</Button>
+          </form>
         </div>
       )}
       <NoteCardLayout>

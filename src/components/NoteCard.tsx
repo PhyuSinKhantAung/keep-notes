@@ -50,7 +50,7 @@ const NoteCard = ({
       </CardContent>
 
       {trashed ? (
-        <CardFooter className="flex gap-x-2 p-4 cursor-pointer justify-start">
+        <CardFooter className="flex gap-x-2 p-4 justify-start">
           <form action={handleTrashedNote}>
             <input name="noteId" className="hidden" value={id} />
             <UntrashIcon />
@@ -187,4 +187,5 @@ const UntrashIcon = () => {
     ></Icons.trashRestore>
   );
 };
+
 export default NoteCard;

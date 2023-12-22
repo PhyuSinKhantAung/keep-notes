@@ -30,8 +30,6 @@ export const fetchNotes = async (query: Query) => {
     // TODO ** You need to remove this soon
     await delay(3000); // Delay for 5 seconds (5000 milliseconds)
 
-    console.log(notes);
-
     const data = JSON.parse(JSON.stringify(notes));
 
     noStore();
