@@ -3,8 +3,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { addNote } from '@/lib/actions';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
+import toast from 'react-hot-toast';
 
 const NoteInputsForm = () => {
   const ref = useRef<HTMLFormElement>(null);
@@ -44,11 +45,27 @@ const NoteInputsForm = () => {
 const CloseButton = () => {
   const { pending } = useFormStatus();
 
+  const [isEdit, setIsEdit] = useState(false);
+
+  useEffect(() => {
+    if (pending && isEdit) {
+      toast('Loading', {
+        icon: '⏳',
+      });
+    } else if (!pending && isEdit) {
+      toast('Note added!', {
+        icon: '👏',
+      });
+      setIsEdit(false);
+    }
+  }, [pending]);
+
   return (
     <Button
       variant="ghost"
       className={`${pending && 'opacity-10'} float-right my-2`}
       disabled={pending}
+      onClick={() => setIsEdit(true)}
     >
       {pending ? 'Submitting...' : 'Close'}
     </Button>

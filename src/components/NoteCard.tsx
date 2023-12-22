@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Icons } from './Icons';
 import { Textarea } from './ui/textarea';
@@ -7,6 +7,7 @@ import {
   handleArchiveNote,
   handlePinnedNote,
   handleTrashedNote,
+  updateNote,
 } from '@/lib/actions';
 import {
   Card,
@@ -23,6 +24,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import toast from 'react-hot-toast';
 
 const NoteCard = ({
   title,
@@ -39,6 +41,11 @@ const NoteCard = ({
   trashed: boolean;
   id: string;
 }) => {
+  const ref = useRef<HTMLFormElement>(null);
+
+  const [open, setOpen] = useState(false);
+  const [isEdited, setIsEdited] = useState(false);
+
   return (
     <Card className="bg-background break-inside-avoid ">
       <CardHeader className="p-4">
@@ -58,35 +65,38 @@ const NoteCard = ({
         </CardFooter>
       ) : (
         <CardFooter className="flex gap-x-2 p-4 md:justify-between justify-start">
-          <Dialog>
+          <Dialog onOpenChange={setOpen} open={open}>
             <DialogTrigger asChild>
               <Icons.pensquare size={18} />
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] h-full md:h-[90%] bg-white dark:bg-black">
-              <form>
-                <div className="rounded-md md:max-2xl mx-auto px-2">
+            <DialogContent className="sm:max-w-[425px] overflow-y-scroll break-kee h-full md:h-[90%] bg-white dark:bg-black">
+              <form
+                action={async (formData) => {
+                  await updateNote({ formData, id });
+                  ref?.current?.reset();
+                }}
+                ref={ref}
+              >
+                <div className="rounded-md md:max-2xl mx-auto px-2 break-keep overflow-hidden">
                   <Input
                     className="border-0 rounded-none focus:outline-0 "
                     placeholder="Title"
                     name="title"
+                    id="title"
+                    defaultValue={title}
                   />
 
-                  <p>
-                    <strong>Solution with span:</strong>{' '}
-                    <span
-                      className="textarea"
-                      role="textbox"
-                      contentEditable
-                    ></span>
-                  </p>
                   <Textarea
-                    className="border-0 rounded-none focus:outline-0 resize-none"
-                    placeholder="Description"
+                    className="border-0  rounded-none focus:outline-0"
+                    rows={20}
+                    defaultValue={description}
                     name="description"
+                    id="description"
+                    placeholder="Description"
                   />
                 </div>
                 <DialogFooter>
-                  <Button type="submit">Close</Button>
+                  <EditClose setOpen={setOpen} />
                 </DialogFooter>
               </form>
             </DialogContent>
@@ -122,6 +132,36 @@ const NoteCard = ({
         </CardFooter>
       )}
     </Card>
+  );
+};
+
+const EditClose = ({ setOpen }: { setOpen: (openValue: boolean) => void }) => {
+  const { pending } = useFormStatus();
+  const [isEdit, setIsEdit] = useState(false);
+
+  useEffect(() => {
+    if (pending) {
+      toast('Loading', {
+        icon: '⏳',
+      });
+    } else if (!pending && isEdit) {
+      toast('Updated!', {
+        icon: '👏',
+      });
+      setOpen(false);
+    }
+  }, [pending, setOpen]);
+
+  return (
+    <Button
+      type="submit"
+      className="my-4"
+      variant="secondary"
+      disabled={pending}
+      onClick={() => setIsEdit(true)}
+    >
+      Close
+    </Button>
   );
 };
 

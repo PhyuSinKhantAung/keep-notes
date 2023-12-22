@@ -7,6 +7,7 @@ import BaseLayout from '@/components/layout/RootLayout';
 import AuthProvider from '@/components/auth/AuthProvider';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: 'Keep notes',
@@ -39,6 +40,7 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <Toaster />
             <BaseLayout>{children}</BaseLayout>
           </ThemeProvider>
         </AuthProvider>

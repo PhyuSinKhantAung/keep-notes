@@ -23,6 +23,27 @@ export async function addNote(formData: FormData) {
   }
 }
 
+export async function updateNote({
+  formData,
+  id,
+}: {
+  formData: FormData;
+  id: string;
+}) {
+  try {
+    connectToDB();
+
+    const update = Object.fromEntries(formData);
+
+    await NoteModel.findByIdAndUpdate(id, update);
+
+    revalidatePath('/notes');
+  } catch (error) {
+    console.log(error);
+    return 'Failed to add note';
+  }
+}
+
 export async function handlePinnedNote(formData: FormData) {
   try {
     connectToDB();
